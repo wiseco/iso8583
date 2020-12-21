@@ -99,18 +99,19 @@ func messageToBuf(format string, message lib.Iso8583Message) ([]byte, error) {
 	return output, err
 }
 
-func outputBufferToWriter(w http.ResponseWriter, buf []byte, format string) {
+func outputBufferToWriter(w http.ResponseWriter, message lib.Iso8583Message, format string) {
 	w.WriteHeader(http.StatusOK)
 	switch format {
 	case utils.MessageFormatJson:
 		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		json.NewEncoder(w).Encode(buf)
+		json.NewEncoder(w).Encode(message)
 	case utils.MessageFormatXml:
 		w.Header().Set("Content-Type", "application/xml; charset=utf-8")
-		xml.NewEncoder(w).Encode(buf)
+		xml.NewEncoder(w).Encode(message)
 	case utils.MessageFormatIso8583:
 		w.Header().Set("Content-Type", "application/octet-stream; charset=utf-8")
-		w.Write(buf)
+		output, _ := message.Bytes()
+		w.Write(output)
 	}
 }
 
@@ -140,13 +141,13 @@ func print(w http.ResponseWriter, r *http.Request) {
 	}
 
 	format := r.FormValue("format")
-	output, err := messageToBuf(format, message)
+	_, err = messageToBuf(format, message)
 	if err != nil {
 		outputError(w, http.StatusNotImplemented, err)
 		return
 	}
 
-	outputBufferToWriter(w, output, format)
+	outputBufferToWriter(w, message, format)
 }
 
 // convert - convert file with ascii or json format

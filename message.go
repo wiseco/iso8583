@@ -169,6 +169,9 @@ func (m *Message) Unpack(src []byte) error {
 		return err
 	}
 
+	// Set fields map
+	m.fieldsMap[0] = struct{}{}
+
 	off = read
 
 	// unpack Bitmap
@@ -176,6 +179,9 @@ func (m *Message) Unpack(src []byte) error {
 	if err != nil {
 		return err
 	}
+
+	// Set in fields map
+	m.fieldsMap[1] = struct{}{}
 
 	off += read
 

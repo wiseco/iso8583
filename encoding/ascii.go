@@ -9,13 +9,19 @@ const (
 	asciiTypeAlpha
 	asciiTypeNumeric
 	asciiTypeAlphaNumeric
+	asciiTypeNonAlpha
+	asciiTypeNonNumeric
+	asciiTypeNonAlphaNumeric
 )
 
 var (
-	ASCII        = &asciiEncoder{asciiTypeDefault}
-	Alpha        = &asciiEncoder{asciiTypeAlpha}
-	Numeric      = &asciiEncoder{asciiTypeNumeric}
-	AlphaNumeric = &asciiEncoder{asciiTypeAlphaNumeric}
+	ASCII           = &asciiEncoder{asciiTypeDefault}         // Alpha, Numeric, Special Characters (ANS)
+	Alpha           = &asciiEncoder{asciiTypeAlpha}           // Alpha (A)
+	Numeric         = &asciiEncoder{asciiTypeNumeric}         // Numeric (N)
+	AlphaNumeric    = &asciiEncoder{asciiTypeAlphaNumeric}    // AlphaNumric (AN)
+	NonAlpha        = &asciiEncoder{asciiTypeNonAlpha}        // Numeric, Special Characters (NS)
+	NonNumeric      = &asciiEncoder{asciiTypeNonNumeric}      // Alpha, Special Characters (AS)
+	NonAlphaNumeric = &asciiEncoder{asciiTypeNonAlphaNumeric} // Special Characters (S)
 )
 
 type asciiEncoder struct {
@@ -47,6 +53,24 @@ func (e asciiEncoder) Encode(data []byte) ([]byte, error) {
 				break
 			default:
 				return nil, fmt.Errorf("invalid ASCII alphanumeric char: %#X", r)
+			}
+		case asciiTypeNonAlpha:
+			switch {
+			case r <= 64, r >= 91 && r <= 96, r >= 123:
+				break
+			default:
+				return nil, fmt.Errorf("invalid ASCII non alpha char: %#X", r)
+			}
+		case asciiTypeNonNumeric:
+			if r >= 48 && r <= 57 {
+				return nil, fmt.Errorf("invalid ASCII non numeric char: %#X", r)
+			}
+		case asciiTypeNonAlphaNumeric:
+			switch {
+			case r <= 47, r >= 58 && r <= 64, r >= 91 && r <= 96, r >= 123:
+				break
+			default:
+				return nil, fmt.Errorf("invalid ASCII non alphanumeric char: %#X", r)
 			}
 		}
 		out = append(out, r)
@@ -80,6 +104,24 @@ func (e asciiEncoder) Decode(data []byte, _ int) ([]byte, error) {
 				break
 			default:
 				return nil, fmt.Errorf("invalid ASCII alphanumeric char: %#X", r)
+			}
+		case asciiTypeNonAlpha:
+			switch {
+			case r <= 64, r >= 91 && r <= 96, r >= 123:
+				break
+			default:
+				return nil, fmt.Errorf("invalid ASCII non alpha char: %#X", r)
+			}
+		case asciiTypeNonNumeric:
+			if r >= 48 && r <= 57 {
+				return nil, fmt.Errorf("invalid ASCII non numeric char: %#X", r)
+			}
+		case asciiTypeNonAlphaNumeric:
+			switch {
+			case r <= 47, r >= 58 && r <= 64, r >= 91 && r <= 96, r >= 123:
+				break
+			default:
+				return nil, fmt.Errorf("invalid ASCII non alphanumeric char: %#X", r)
 			}
 		}
 		out = append(out, r)

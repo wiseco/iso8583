@@ -101,3 +101,75 @@ func TestAlphaNumeric(t *testing.T) {
 		require.Error(t, err)
 	})
 }
+
+func TestNonAlpha(t *testing.T) {
+	enc := NonAlpha
+
+	t.Run("Decode", func(t *testing.T) {
+		res, err := enc.Decode([]byte("#$%123"), 0)
+
+		require.NoError(t, err)
+		require.Equal(t, []byte("#$%123"), res)
+
+		_, err = enc.Decode([]byte("Hello09!"), 0)
+		require.Error(t, err)
+	})
+
+	t.Run("Encode", func(t *testing.T) {
+		res, err := enc.Encode([]byte("#$%123"))
+
+		require.NoError(t, err)
+		require.Equal(t, []byte("#$%123"), res)
+
+		_, err = enc.Encode([]byte("Hello09!"))
+		require.Error(t, err)
+	})
+}
+
+func TestNonNumeric(t *testing.T) {
+	enc := NonNumeric
+
+	t.Run("Decode", func(t *testing.T) {
+		res, err := enc.Decode([]byte("#$%Abc"), 0)
+
+		require.NoError(t, err)
+		require.Equal(t, []byte("#$%Abc"), res)
+
+		_, err = enc.Decode([]byte("Hello09!"), 0)
+		require.Error(t, err)
+	})
+
+	t.Run("Encode", func(t *testing.T) {
+		res, err := enc.Encode([]byte("#$%Abc"))
+
+		require.NoError(t, err)
+		require.Equal(t, []byte("#$%Abc"), res)
+
+		_, err = enc.Encode([]byte("Hello09!"))
+		require.Error(t, err)
+	})
+}
+
+func TestNonNonAlphaNumeric(t *testing.T) {
+	enc := NonAlphaNumeric
+
+	t.Run("Decode", func(t *testing.T) {
+		res, err := enc.Decode([]byte("#$% ()^"), 0)
+
+		require.NoError(t, err)
+		require.Equal(t, []byte("#$% ()^"), res)
+
+		_, err = enc.Decode([]byte("Hello09!"), 0)
+		require.Error(t, err)
+	})
+
+	t.Run("Encode", func(t *testing.T) {
+		res, err := enc.Encode([]byte("#$% ()^"))
+
+		require.NoError(t, err)
+		require.Equal(t, []byte("#$% ()^"), res)
+
+		_, err = enc.Encode([]byte("Hello09!"))
+		require.Error(t, err)
+	})
+}

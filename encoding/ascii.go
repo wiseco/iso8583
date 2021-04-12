@@ -28,25 +28,25 @@ func (e asciiEncoder) Encode(data []byte) ([]byte, error) {
 		switch e.t {
 		default:
 			if r > 127 {
-				return nil, fmt.Errorf("invalid ASCII char: '%s'", string(r))
+				return nil, fmt.Errorf("invalid ASCII char: %#X", r)
 			}
 		case asciiTypeAlpha:
 			switch {
 			case r >= 65 && r <= 90, r >= 97 && r <= 122:
 				break
 			default:
-				return nil, fmt.Errorf("invalid ASCII alpha char: '%s'", string(r))
+				return nil, fmt.Errorf("invalid ASCII alpha char: %#X", r)
 			}
 		case asciiTypeNumeric:
 			if r < 48 || r > 57 {
-				return nil, fmt.Errorf("invalid ASCII numeric char: '%s'", string(r))
+				return nil, fmt.Errorf("invalid ASCII numeric char: %#X", r)
 			}
 		case asciiTypeAlphaNumeric:
 			switch {
 			case r >= 48 && r <= 57, r >= 65 && r <= 90, r >= 97 && r <= 122:
 				break
 			default:
-				return nil, fmt.Errorf("invalid ASCII alphanumeric char: '%s'", string(r))
+				return nil, fmt.Errorf("invalid ASCII alphanumeric char: %#X", r)
 			}
 		}
 		out = append(out, r)
@@ -61,25 +61,25 @@ func (e asciiEncoder) Decode(data []byte, _ int) ([]byte, error) {
 		switch e.t {
 		default:
 			if r > 127 {
-				return nil, fmt.Errorf("invalid ASCII char: '%s'", string(r))
+				return nil, fmt.Errorf("invalid ASCII char: %#X", r)
 			}
 		case asciiTypeAlpha:
 			switch {
 			case r >= 65 && r <= 90, r >= 97 && r <= 122:
 				break
 			default:
-				return nil, fmt.Errorf("invalid ASCII alpha char: '%s'", string(r))
+				return nil, fmt.Errorf("invalid ASCII alpha char: %#X", r)
 			}
 		case asciiTypeNumeric:
 			if r < 48 || r > 57 {
-				return nil, fmt.Errorf("invalid ASCII numeric char: '%s'", string(r))
+				return nil, fmt.Errorf("invalid ASCII numeric char: %#X", r)
 			}
 		case asciiTypeAlphaNumeric:
 			switch {
 			case r >= 48 && r <= 57, r >= 65 && r <= 90, r >= 97 && r <= 122:
 				break
 			default:
-				return nil, fmt.Errorf("invalid ASCII alphanumeric char: '%s'", string(r))
+				return nil, fmt.Errorf("invalid ASCII alphanumeric char: %#X", r)
 			}
 		}
 		out = append(out, r)

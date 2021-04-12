@@ -5,7 +5,10 @@ import (
 	"strings"
 )
 
-var Hex Encoder = &hexEncoder{}
+var (
+	Hex      Encoder = &hexEncoder{}
+	HexUpper Encoder = &hexEncoder{true}
+)
 
 type hexEncoder struct {
 	upper bool
@@ -32,5 +35,3 @@ func (e hexEncoder) Decode(data []byte, _ int) ([]byte, error) {
 
 	return out, nil
 }
-
-var HexUpper Encoder = &hexEncoder{true}

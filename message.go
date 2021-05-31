@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"reflect"
 
-	"github.com/moov-io/iso8583/field"
+	"github.com/wiseco/iso8583/field"
 )
 
 type Message struct {

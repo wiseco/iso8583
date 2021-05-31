@@ -3,10 +3,10 @@ package iso8583
 import (
 	"testing"
 
-	"github.com/moov-io/iso8583/encoding"
-	"github.com/moov-io/iso8583/field"
-	"github.com/moov-io/iso8583/padding"
-	"github.com/moov-io/iso8583/prefix"
+	"github.com/wiseco/iso8583/encoding"
+	"github.com/wiseco/iso8583/field"
+	"github.com/wiseco/iso8583/padding"
+	"github.com/wiseco/iso8583/prefix"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

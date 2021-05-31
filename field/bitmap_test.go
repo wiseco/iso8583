@@ -3,9 +3,9 @@ package field
 import (
 	"testing"
 
-	"github.com/moov-io/iso8583/encoding"
-	"github.com/moov-io/iso8583/prefix"
 	"github.com/stretchr/testify/require"
+	"github.com/wiseco/iso8583/encoding"
+	"github.com/wiseco/iso8583/prefix"
 )
 
 func TestHexBitmap(t *testing.T) {

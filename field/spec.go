@@ -1,9 +1,9 @@
 package field
 
 import (
-	"github.com/moov-io/iso8583/encoding"
-	"github.com/moov-io/iso8583/padding"
-	"github.com/moov-io/iso8583/prefix"
+	"github.com/wiseco/iso8583/encoding"
+	"github.com/wiseco/iso8583/padding"
+	"github.com/wiseco/iso8583/prefix"
 )
 
 type Spec struct {

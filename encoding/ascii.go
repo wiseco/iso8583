@@ -12,6 +12,7 @@ const (
 	asciiTypeNonAlpha
 	asciiTypeNonNumeric
 	asciiTypeNonAlphaNumeric
+	asciiTypeAll
 )
 
 var (
@@ -22,6 +23,7 @@ var (
 	NonAlpha        = &asciiEncoder{asciiTypeNonAlpha}        // Numeric, Special Characters (NS)
 	NonNumeric      = &asciiEncoder{asciiTypeNonNumeric}      // Alpha, Special Characters (AS)
 	NonAlphaNumeric = &asciiEncoder{asciiTypeNonAlphaNumeric} // Special Characters (S)
+	All             = &asciiEncoder{asciiTypeAll}             // All type of characters
 )
 
 type asciiEncoder struct {
@@ -72,6 +74,8 @@ func (e asciiEncoder) Encode(data []byte) ([]byte, error) {
 			default:
 				return nil, fmt.Errorf("invalid ASCII non alphanumeric char: %#X", r)
 			}
+		case asciiTypeAll:
+			break
 		}
 		out = append(out, r)
 	}

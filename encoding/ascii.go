@@ -1,6 +1,9 @@
 package encoding
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+)
 
 type encType int
 
@@ -33,6 +36,7 @@ type asciiEncoder struct {
 func (e asciiEncoder) Encode(data []byte) ([]byte, error) {
 	out := []byte{}
 	for _, r := range data {
+		log.Println("Encode", e.t, r)
 		switch e.t {
 		default:
 			if r > 127 {
@@ -127,6 +131,8 @@ func (e asciiEncoder) Decode(data []byte, _ int) ([]byte, error) {
 			default:
 				return nil, fmt.Errorf("invalid ASCII non alphanumeric char: %#X", r)
 			}
+		case asciiTypeAll:
+			break
 		}
 		out = append(out, r)
 	}

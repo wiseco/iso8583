@@ -188,7 +188,7 @@ func (m *Message) Unpack(src []byte) error {
 	off += read
 
 	for i := 2; i <= m.Bitmap().Len(); i++ {
-		log.Println("Unpacking of each bitmap", m.fields[i].String(), off, m.Bitmap().IsSet(i))
+		log.Println("Unpacking of each bitmap", i, off, m.Bitmap().IsSet(i))
 
 		if m.Bitmap().IsSet(i) {
 			field, ok := m.fields[i]
@@ -207,6 +207,8 @@ func (m *Message) Unpack(src []byte) error {
 				return fmt.Errorf("failed to unpack field %d: %v", i, err)
 			}
 			off += read
+
+			log.Println("End of Unpacking of each bitmap", off, read)
 		}
 	}
 

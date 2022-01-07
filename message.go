@@ -2,6 +2,7 @@ package iso8583
 
 import (
 	"fmt"
+	"log"
 	"reflect"
 
 	"github.com/moov-io/iso8583/field"
@@ -159,6 +160,7 @@ func (m *Message) Pack() ([]byte, error) {
 
 func (m *Message) Unpack(src []byte) error {
 	var off int
+	log.Println("Unpacking started")
 
 	m.fieldsMap = map[int]struct{}{}
 	m.Bitmap().Reset()
@@ -186,6 +188,8 @@ func (m *Message) Unpack(src []byte) error {
 	off += read
 
 	for i := 2; i <= m.Bitmap().Len(); i++ {
+		log.Println("Unpacking of each bitmap", m.fields[i].String(), off, m.Bitmap().IsSet(i))
+
 		if m.Bitmap().IsSet(i) {
 			field, ok := m.fields[i]
 			if !ok {
